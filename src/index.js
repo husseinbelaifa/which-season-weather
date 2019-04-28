@@ -28,7 +28,7 @@ class App extends React.Component {
   };
 
   UpdateState() {
-    this.setState({ time: new Date().toLocaleDateString });
+    this.setState({ time: new Date().toLocaleString() });
   }
 
   componentDidMount() {
@@ -43,6 +43,11 @@ class App extends React.Component {
           errorMessage: error.message
         })
     );
+
+    setInterval(() => {
+      console.log("update time");
+      this.setState({ time: new Date().toLocaleString() });
+    }, 1000);
   }
 
   componentDidUpdate() {
