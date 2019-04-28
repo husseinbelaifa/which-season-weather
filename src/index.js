@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDom from "react-dom";
 
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
 // const App = () => {
 //   // return <div>Hi there !</div>;
 
@@ -13,29 +15,41 @@ import ReactDom from "react-dom";
 // };
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.state = { lat: null, errorMessage: "" };
+  //   this.state = { lat: null, errorMessage: "" };
+  // }
 
+  state = {
+    lat: null,
+    errorMessage: ""
+  };
+
+  componentDidMount() {
+    console.log("My component was rendered to the screen");
     window.navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState({ lat: position.coords.latitude });
-      },
-      error => {
-        this.setState({ errorMessage: error.message });
-      }
+      position =>
+        this.setState({
+          lat: position.coords.latitude
+        }),
+      error =>
+        this.setState({
+          errorMessage: error.message
+        })
     );
   }
 
-  // state = {};
+  componentDidUpdate() {
+    console.log("My component was updated");
+  }
 
-  render() {
+  renderContent() {
     if (!this.state.lat && this.state.errorMessage) {
       return (
         <div>
-          Latitude:{this.state.lat} <br />
-          Error:{this.state.errorMessage}
+          {/* Latitude:{this.state.lat} <br /> */}
+          Error: {this.state.errorMessage}
         </div>
       );
     }
@@ -43,8 +57,9 @@ class App extends React.Component {
     if (this.state.lat && !this.state.errorMessage) {
       return (
         <div>
-          Latitude:{this.state.lat} <br />
-          Error:{this.state.errorMessage}
+          {/* Latitude: {this.state.lat} <br /> */}
+
+          <SeasonDisplay lat={this.state.lat} />
         </div>
       );
     }
@@ -52,13 +67,19 @@ class App extends React.Component {
     if (this.state.lat && this.state.errorMessage) {
       return (
         <div>
-          Latitude:{this.state.lat} <br />
-          Error:{this.state.errorMessage}
+          {/* Latitude:{this.state.lat} <br /> */}
+          Error: {this.state.errorMessage}
         </div>
       );
     }
 
-    return <div>Loading!</div>;
+    return <Spinner message="Pleace accept location request" />;
+  }
+
+  // state = {};
+
+  render() {
+    return <div className="border red">{this.renderContent()}</div>;
   }
 }
 
