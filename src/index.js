@@ -23,8 +23,13 @@ class App extends React.Component {
 
   state = {
     lat: null,
-    errorMessage: ""
+    errorMessage: "",
+    time: new Date().toLocaleDateString
   };
+
+  UpdateState() {
+    this.setState({ time: new Date().toLocaleDateString });
+  }
 
   componentDidMount() {
     console.log("My component was rendered to the screen");
@@ -79,7 +84,12 @@ class App extends React.Component {
   // state = {};
 
   render() {
-    return <div className="border red">{this.renderContent()}</div>;
+    return (
+      <div className="border red">
+        {this.renderContent()}
+        <div className="time"> {this.state.time}</div>
+      </div>
+    );
   }
 }
 
